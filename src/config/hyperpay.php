@@ -28,8 +28,8 @@ return [
 
         'company' => [
             'company_name' => 'Company Name',
-            'street1' => 'Address 1',
-            'street2' => 'Address 2',
+            'street1' => 'Address Line 1',
+            'street2' => 'Address Line 2',
             'city' => 'Riyadh',
             'state' => 'RUH',
             'postcode' => '13243',
