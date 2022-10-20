@@ -9,7 +9,7 @@ class HyperPayMethods
      *
      * @return array
      */
-    public function visa(): array
+    public static function VISA(): array
     {
         return ['payment_method' => 'VISA'];
     }
@@ -19,7 +19,7 @@ class HyperPayMethods
      *
      * @return array
      */
-    public function master(): array
+    public static function MASTER(): array
     {
         return ['payment_method' => 'MASTER'];
     }
@@ -29,7 +29,7 @@ class HyperPayMethods
      *
      * @return array
      */
-    public function mada(): array
+    public static function MADA(): array
     {
         return ['payment_method' => 'MADA'];
     }
@@ -39,7 +39,7 @@ class HyperPayMethods
      *
      * @return array
      */
-    public function applepay(): array
+    public static function APPLEPAY(): array
     {
         return ['payment_method' => 'APPLEPAY'];
     }
@@ -49,7 +49,7 @@ class HyperPayMethods
      *
      * @return array
      */
-    public function googlepay(): array
+    public static function GOOGLEPAY(): array
     {
         return ['payment_method' => 'GOOGLEPAY'];
     }
