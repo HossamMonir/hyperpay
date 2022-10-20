@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Hossammonir\\Hyperpay\\": "src/"
+            "HossamMonir\\HyperPay\\": "src/"
         }
     },
     "authors": [
