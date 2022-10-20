@@ -158,6 +158,16 @@ abstract class HyperPay
     }
 
     /**
+     * Render Config to HyperPay Report Array.
+     *
+     * @return array
+     */
+    public function paymentReportMappingData(): array
+    {
+        return ['entityId' => $this->config['entityId']];
+    }
+
+    /**
      * Generate Transaction ID
      *
      * @return string

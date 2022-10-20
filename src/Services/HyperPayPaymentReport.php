@@ -4,11 +4,11 @@ namespace HossamMonir\HyperPay\Services;
 
 use Exception;
 use HossamMonir\HyperPay\Contracts\HyperPay;
-use HossamMonir\HyperPay\Interfaces\HyperPayPaymentStatusInterface;
+use HossamMonir\HyperPay\Interfaces\HyperPayPaymentReportInterface;
 use HossamMonir\HyperPay\Traits\HyperPayAPIRequest;
 use Illuminate\Http\JsonResponse;
 
-class HyperPayPaymentStatus extends HyperPay implements HyperPayPaymentStatusInterface
+class HyperPayPaymentReport extends HyperPay implements HyperPayPaymentReportInterface
 {
     use HyperPayAPIRequest;
 
@@ -55,7 +55,7 @@ class HyperPayPaymentStatus extends HyperPay implements HyperPayPaymentStatusInt
      */
     public function validate(): JsonResponse
     {
-        $response = $this->PaymentStatus($this->config['checkout_id']);
+        $response = $this->PaymentReport($this->config['checkout_id']);
         return response()->json([
             'response' => [
                 $response,

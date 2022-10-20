@@ -33,4 +33,19 @@ trait HyperPayAPIRequest
             ->get("v1/checkouts/$checkoutId/payment", $this->paymentStatusMappingData())
             ->json();
     }
+
+    /**
+     * HyperPay Payment Report Query API Request.
+     *
+     * @param  string  $checkoutId
+     * @return array
+     */
+    public function PaymentReport(string $checkoutId): array
+    {
+        return Http::baseUrl($this->endpoint)
+            ->withToken($this->accessToken)
+            ->withOptions(['verify' => ! $this->isTestMode == true])
+            ->get("v1/query/$checkoutId", $this->paymentReportMappingData())
+            ->json();
+    }
 }
