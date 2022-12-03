@@ -4,7 +4,7 @@ namespace HossamMonir\HyperPay\Traits;
 
 use Illuminate\Support\Facades\Http;
 
-trait HyperPayAPIRequest
+trait Processor
 {
     /**
      * HyperPay Checkout API Request.
@@ -40,12 +40,26 @@ trait HyperPayAPIRequest
      * @param  string  $checkoutId
      * @return array
      */
-    public function PaymentReport(string $checkoutId): array
+    public function TransactionReport(string $checkoutId): array
     {
         return Http::baseUrl($this->endpoint)
             ->withToken($this->accessToken)
             ->withOptions(['verify' => ! $this->isTestMode == true])
             ->get("v1/query/$checkoutId", $this->paymentReportMappingData())
+            ->json();
+    }
+
+    /**
+     * HyperPay Settlement Report Query API Request.
+     *
+     * @return array
+     */
+    public function SettlementReport(): array
+    {
+        return Http::baseUrl($this->endpoint)
+            ->withToken($this->accessToken)
+            ->withOptions(['verify' => ! $this->isTestMode == true])
+            ->get('reports/v1/reconciliations/aggregations', $this->settlementReportMappingData())
             ->json();
     }
 }
