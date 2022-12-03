@@ -2,7 +2,6 @@
 
 namespace HossamMonir\HyperPay;
 
-use HossamMonir\HyperPay\Services\HyperPayFacade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
