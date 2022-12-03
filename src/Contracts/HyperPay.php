@@ -2,6 +2,8 @@
 
 namespace HossamMonir\HyperPay\Contracts;
 
+use Exception;
+use HossamMonir\HyperPay\Exceptions\InvalidPaymentMethod;
 use Illuminate\Support\Arr;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
@@ -41,7 +43,7 @@ abstract class HyperPay
      *
      * @param $config
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct($config)
     {
@@ -61,7 +63,7 @@ abstract class HyperPay
     /**
      * Set HyperPay Configurations.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setHyperPayConfig(array $config): void
     {
@@ -99,7 +101,7 @@ abstract class HyperPay
     /**
      * Get Target HyperPay Entity
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getHyperPayEntity(): string
     {
@@ -110,7 +112,7 @@ abstract class HyperPay
             'MADA' => config('hyperpay.config.test.mada'),
             'APPLEPAY' => config('hyperpay.config.test.apple_pay'),
             'GOOGLEPAY' => config('hyperpay.config.test.google_pay'),
-            default => throw new \Exception('Payment Method Not Found')
+            default => throw new InvalidPaymentMethod('Payment Method Not Found')
         };
 
         // HyperPay Live Mode Entity
@@ -120,20 +122,21 @@ abstract class HyperPay
             'MADA' => config('hyperpay.config.live.mada'),
             'APPLEPAY' => config('hyperpay.config.live.apple_pay'),
             'GOOGLEPAY' => config('hyperpay.config.live.google_pay'),
-            default => throw new \Exception('Payment Method Not Found')
+            default => throw new InvalidPaymentMethod('Payment Method Not Found')
         };
 
         return $this->isTestMode ? $testEntity : $liveEntity;
     }
 
     /**
-     * Render Config to HyperPay Configurations Array.
+     * Render Config to HyperPay Configurations Recursive Array.
      *
+     * @param  array  $config
      * @return array
      */
-    public function checkoutMappingData(): array
+    private function arrayRecursive(array $config): array
     {
-        $config = new RecursiveIteratorIterator(new RecursiveArrayIterator($this->config));
+        $config = new RecursiveIteratorIterator(new RecursiveArrayIterator($config));
         $result = [];
         foreach ($config as $values) {
             $keys = [];
@@ -143,10 +146,22 @@ abstract class HyperPay
             $result[implode('.', $keys)] = $values;
         }
 
-        // unset Payment Method
-        Arr::forget($result, 'payment_method');
-
         return $result;
+    }
+
+    /**
+     * Get Checkout Mapped configurations.
+     *
+     * @return array
+     */
+    public function checkoutMappingData(): array
+    {
+        $config = $this->arrayRecursive($this->config);
+
+        // unset Payment Method
+        Arr::forget($config, 'payment_method');
+
+        return $config;
     }
 
     /**
@@ -170,6 +185,23 @@ abstract class HyperPay
     }
 
     /**
+     * Render Config to HyperPay Settlement Array.
+     *
+     * @return array
+     */
+    public function settlementReportMappingData(): array
+    {
+        // Set HyperPay Settlement Report Dummy Data
+        if ($this->isTestMode) {
+            $this->config['testMode'] = 'INTERNAL';
+        }
+
+        $config = self::arrayRecursive($this->config);
+
+        return Arr::only($config, ['entityId', 'date.from', 'date.to', 'currency', 'testMode']);
+    }
+
+    /**
      * Generate Transaction ID
      *
      * @return string
@@ -185,11 +217,20 @@ abstract class HyperPay
      * @param  string  $resultCode
      * @return bool
      */
-    public function validateStatus(string $resultCode): bool
+    protected function validateStatus(string $resultCode): bool
     {
         $successCodePattern = '/^(000\.000\.|000\.100\.1|000\.[36])/';
         $successManualReviewCodePattern = '/^(000\.400\.0|000\.400\.100)/';
 
         return preg_match($successCodePattern, $resultCode) || preg_match($successManualReviewCodePattern, $resultCode);
+    }
+
+    /**
+     * Validate Checkout Status
+     * to ensure that checkout form has been created.
+     */
+    protected function validateCheckout(string $resultCode): bool
+    {
+        return preg_match('/^(000\.200)/', $resultCode);
     }
 }
