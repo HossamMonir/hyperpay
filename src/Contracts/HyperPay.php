@@ -109,7 +109,7 @@ abstract class HyperPay
             'MASTER' => config('hyperpay.config.test.master_card'),
             'MADA' => config('hyperpay.config.test.mada'),
             'APPLEPAY' => config('hyperpay.config.test.apple_pay'),
-            'GOOGLEPAY' => config('hyperpay.config.test.apple_pay'),
+            'GOOGLEPAY' => config('hyperpay.config.test.google_pay'),
             default => throw new \Exception('Payment Method Not Found')
         };
 
@@ -119,6 +119,7 @@ abstract class HyperPay
             'MASTER' => config('hyperpay.config.live.master_card'),
             'MADA' => config('hyperpay.config.live.mada'),
             'APPLEPAY' => config('hyperpay.config.live.apple_pay'),
+            'GOOGLEPAY' => config('hyperpay.config.live.google_pay'),
             default => throw new \Exception('Payment Method Not Found')
         };
 
