@@ -4,11 +4,11 @@ namespace HossamMonir\HyperPay\Services;
 
 use Exception;
 use HossamMonir\HyperPay\Contracts\HyperPay;
-use HossamMonir\HyperPay\Interfaces\SettlementReportInterface;
+use HossamMonir\HyperPay\Interfaces\PaymentReportInterface;
 use HossamMonir\HyperPay\Traits\Processor;
 use Illuminate\Http\JsonResponse;
 
-class SettlementReport extends HyperPay implements SettlementReportInterface
+class TransactionReport extends HyperPay implements PaymentReportInterface
 {
     use Processor;
 
@@ -25,8 +25,6 @@ class SettlementReport extends HyperPay implements SettlementReportInterface
     }
 
     /**
-     * Set Payment Method.
-     *
      * @param  string  $paymentMethod
      * @return $this
      */
@@ -38,35 +36,24 @@ class SettlementReport extends HyperPay implements SettlementReportInterface
     }
 
     /**
-     * Set From Date
-     *
-     * @param  string  $fromDate
+     * @param  string  $checkoutId
      * @return $this
      */
-    public function setFromDate(string $fromDate): static
+    public function setCheckoutId(string $checkoutId): static
     {
-        $this->config['date.from'] = $fromDate;
+        $this->config['checkout_id'] = $checkoutId;
 
         return $this;
     }
 
     /**
-     * Set To Date
+     * Submit Payment Status Request to HyperPay API.
      *
-     * @param  string  $toDate
-     * @return $this
-     */
-    public function setToDate(string $toDate): static
-    {
-        $this->config['date.to'] = $toDate;
-
-        return $this;
-    }
-
-    /**
+     * @return JsonResponse
+     *
      * @throws Exception
      */
-    public function getSettlement(): JsonResponse
+    public function getTransactionReport(): JsonResponse
     {
         return response()->json($this->initiate());
     }
@@ -80,7 +67,7 @@ class SettlementReport extends HyperPay implements SettlementReportInterface
      */
     private function initiate(): array
     {
-        return $this->render($this->SettlementReport());
+        return $this->render($this->TransactionReport($this->config['checkout_id']));
     }
 
     /**
@@ -92,7 +79,7 @@ class SettlementReport extends HyperPay implements SettlementReportInterface
     private function render(array $response): array
     {
         return [
-            'response' => [$response],
+            'response' => $response,
             'props' => [
                 'payment_method' => $this->config['payment_method'],
                 'test_mode' => $this->isTestMode,
