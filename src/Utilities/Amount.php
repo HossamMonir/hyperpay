@@ -2,23 +2,14 @@
 
 namespace HossamMonir\HyperPay\Utilities;
 
-use HossamMonir\HyperPay\Exceptions\InvalidAmount;
-use Throwable;
 
 class Amount
 {
     /**
-     * Validate Amount.
-     *
-     * @throws Throwable
+     * Convert Amount to decimals.
      */
-    public static function validate(string $amount): float
+    public static function format(string $amount): string
     {
-        throw_if(
-            ! preg_match('/[0-9]{1,10}(\.[0-9]{2})/', $amount),
-            new InvalidAmount('Invalid Amount format.')
-        );
-
-        return $amount;
+        return number_format($amount, 2, '.', '');
     }
 }

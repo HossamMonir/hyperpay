@@ -10,7 +10,7 @@ interface CheckoutInterface
 
     public function setCurrency(string $currency = null): static;
 
-    public function setAmount(float $amount): static;
+    public function setAmount(string $amount): static;
 
     public function setCustomer(array $customer = null): static;
 

@@ -86,13 +86,13 @@ class HyperPayFacade
     }
 
     /**
-     * @param float $amount
+     * @param string $amount
      * @return $this
      * @throws Throwable
      */
-    public function setAmount(float $amount): self
+    public function setAmount(string $amount): self
     {
-        $this->amount = Amount::validate($amount);
+        $this->amount = Amount::format($amount);
 
         return $this;
     }
@@ -145,6 +145,7 @@ class HyperPayFacade
      */
     public function checkout(): JsonResponse
     {
+        ray($this->amount)->red();
         return (new PrepareCheckout($this->paymentMethod) )
             ->setAmount($this->amount)
             ->setCurrency($this->currency)

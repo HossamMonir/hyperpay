@@ -54,10 +54,10 @@ class PrepareCheckout extends HyperPay implements CheckoutInterface
     /**
      * Set Amount
      *
-     * @param  float  $amount
+     * @param  string  $amount
      * @return $this
      */
-    public function setAmount(float $amount): static
+    public function setAmount(string $amount): static
     {
         $this->config['amount'] = $amount;
 
