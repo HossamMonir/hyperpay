@@ -5,12 +5,11 @@ namespace HossamMonir\HyperPay\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static paymentMethod(array $paymentMethod)
- * @method static amount(float $amount)
- * @method static customer(array $customer)
- * @method static checkout()
- * @method static checkoutId(string $checkoutId)
- * @method static validate()
+ * Class HyperPayFacade
+ *
+ * @mixin \HossamMonir\HyperPay\HyperPayFacade
+ *
+ * @package HossamMonir\HyperPay\Facades
  */
 class HyperPay extends Facade
 {
