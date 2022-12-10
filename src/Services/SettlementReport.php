@@ -92,7 +92,7 @@ class SettlementReport extends HyperPay implements SettlementReportInterface
     private function render(array $response): array
     {
         return [
-            'response' => [$response],
+            'response' => $response,
             'props' => [
                 'payment_method' => $this->config['payment_method'],
                 'test_mode' => $this->isTestMode,

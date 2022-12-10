@@ -7,9 +7,9 @@ use HossamMonir\HyperPay\Services\PaymentStatus;
 use HossamMonir\HyperPay\Services\PrepareCheckout;
 use HossamMonir\HyperPay\Services\SettlementReport;
 use HossamMonir\HyperPay\Services\TransactionReport;
-use HossamMonir\HyperPay\Utilities\Amount;
-use HossamMonir\HyperPay\Utilities\Customer;
-use HossamMonir\HyperPay\Utilities\PaymentMethods;
+use HossamMonir\HyperPay\Data\Amount;
+use HossamMonir\HyperPay\Data\Customer;
+use HossamMonir\HyperPay\Data\PaymentMethods;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
@@ -92,7 +92,7 @@ class HyperPayFacade
      */
     public function setAmount(string $amount): self
     {
-        $this->amount = Amount::format($amount);
+        $this->amount = Amount::from($amount);
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace HossamMonir\HyperPay\Utilities;
+namespace HossamMonir\HyperPay\Data;
 
 
 class Amount

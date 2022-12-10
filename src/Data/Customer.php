@@ -1,8 +1,7 @@
 <?php
 
-namespace HossamMonir\HyperPay\Utilities;
+namespace HossamMonir\HyperPay\Data;
 
-use Exception;
 use HossamMonir\HyperPay\Exceptions\InvalidCustomer;
 use Illuminate\Support\Arr;
 use Throwable;
