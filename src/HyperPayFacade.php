@@ -92,7 +92,7 @@ class HyperPayFacade
      */
     public function setAmount(string $amount): self
     {
-        $this->amount = Amount::from($amount);
+        $this->amount = Amount::format($amount);
 
         return $this;
     }
